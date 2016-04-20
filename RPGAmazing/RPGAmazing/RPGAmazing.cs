@@ -274,7 +274,7 @@ namespace RPGAmazing
             }
         }
 
-        private void btnUseWeapon_Click(object sender, EventArgs e)
+        private void btnUseWeapon_Click_1(object sender, EventArgs e)
         {
             // Get the currently selected weapon from the cboWeapons ComboBox
             Weapon currentWeapon = (Weapon)cboWeapons.SelectedItem;
@@ -385,7 +385,7 @@ namespace RPGAmazing
             }
         }
 
-        private void btnUsePotion_Click(object sender, EventArgs e)
+        private void btnUsePotion_Click_1(object sender, EventArgs e)
         {
             // Get the currently selected potion from the combobox
             HealingPotion potion = (HealingPotion)cboPotions.SelectedItem;
@@ -442,17 +442,19 @@ namespace RPGAmazing
         {
             MoveTo(_player.CurrentLocation.LocationToNorth);
         }
-        private void btnEast_Click(object sender, EventArgs e)
+        private void btnSouth_Click_1(object sender, EventArgs e)
         {
-            MoveTo(_player.CurrentLocation.LocationToEast);
+            MoveTo(_player.CurrentLocation.LocationToSouth);
         }
-        private void btnSouth_Click(object sender, EventArgs e)
-        {
-            MoveTo(_player.CurrentLocation.LocationToEast);
-        }
-        private void btnWest_West(object sender, EventArgs e)
+
+        private void btnWest_Click_1(object sender, EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToWest);
+        }
+
+        private void btnEast_Click_1(object sender, EventArgs e)
+        {
+            MoveTo(_player.CurrentLocation.LocationToEast);
         }
     }
 }
