@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace RPGAmazing
 {
-    public partial class Form1 : Form
+    public partial class RPGAmazing : Form
     {
-        public Form1()
+        public RPGAmazing()
         {
             InitializeComponent();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            lblGold.Text = "123";
         }
     }
 }
