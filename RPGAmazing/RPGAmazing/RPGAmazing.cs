@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using RPGAmazing;
 using Engine;
 
 namespace RPGAmazing
@@ -50,6 +50,7 @@ namespace RPGAmazing
             btnEast.Visible = (newLocation.LocationToEast != null);
             btnSouth.Visible = (newLocation.LocationToSouth != null);
             btnWest.Visible = (newLocation.LocationToWest != null);
+            btnTrade.Visible = (_player.CurrentLocation.VendorWorkingHere != null);
 
             // Display current location name and description
             rtbLocation.Text = newLocation.Name + Environment.NewLine;
@@ -455,6 +456,14 @@ namespace RPGAmazing
         private void btnEast_Click_1(object sender, EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToEast);
+        }
+        private void btnTrade_Click(object sender, EventArgs e)
+        {
+            TradingScreen tradingScreen = new TradingScreen();
+            tradingScreen.StartPosition = FormStartPosition.CenterParent;
+            tradingScreen.CurrentPlayer = _player;
+            tradingScreen.ShowDialog(this);
+
         }
     }
 }
