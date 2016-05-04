@@ -9,7 +9,7 @@ namespace Engine
     public class Player : LivingCreature
     {
         public int Gold { get; set; }
-        public int ExperiencePoints { get; set; }
+        public int ExperiencePoints { get; private set; }
         public int Level { get; set; }
         public Location CurrentLocation { get; set; }
         public List<InventoryItem> Inventory { get; set; }
@@ -23,6 +23,12 @@ namespace Engine
 
             Inventory = new List<InventoryItem>();
             Quests = new List<PlayerQuest>();
+        }
+
+        public void AddExperiencePoints(int experiencePointsToAdd)
+        {
+            ExperiencePoints += experiencePointsToAdd;
+            MaximumHitPoints = (Level * 10);
         }
 
         public bool HasRequiredItemToEnterThisLocation(Location location)

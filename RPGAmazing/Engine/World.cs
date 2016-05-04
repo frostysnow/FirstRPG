@@ -23,10 +23,14 @@ namespace Engine
         public const int ITEM_ID_SPIDER_FANG = 8;
         public const int ITEM_ID_SPIDER_SILK = 9;
         public const int ITEM_ID_ADVENTURER_PASS = 10;
+        public const int ITEM_ID_BONE = 11;
+        public const int ITEM_ID_MAGIC_WAND = 12;
+        public const int UNSELLABLE_ITEM_PRICE = -1;
 
         public const int MONSTER_ID_RAT = 1;
         public const int MONSTER_ID_SNAKE = 2;
         public const int MONSTER_ID_GIANT_SPIDER = 3;
+        public const int MONSTER_ID_SKELETON = 4;
 
         public const int QUEST_ID_CLEAR_ALCHEMIST_GARDEN = 1;
         public const int QUEST_ID_CLEAR_FARMERS_FIELD = 2;
@@ -40,6 +44,7 @@ namespace Engine
         public const int LOCATION_ID_FARM_FIELD = 7;
         public const int LOCATION_ID_BRIDGE = 8;
         public const int LOCATION_ID_SPIDER_FIELD = 9;
+        public const int LOCATION_ID_BASEMENT = 10;
 
         static World()
         {
@@ -51,16 +56,18 @@ namespace Engine
 
         private static void PopulateItems()
         {
-            Items.Add(new Weapon(ITEM_ID_RUSTY_SWORD, "Rusty sword", "Rusty swords", 0, 5));
-            Items.Add(new Item(ITEM_ID_RAT_TAIL, "Rat tail", "Rat tails"));
-            Items.Add(new Item(ITEM_ID_PIECE_OF_FUR, "Piece of fur", "Pieces of fur"));
-            Items.Add(new Item(ITEM_ID_SNAKE_FANG, "Snake fang", "Snake fangs"));
-            Items.Add(new Item(ITEM_ID_SNAKESKIN, "Snakeskin", "Snakeskins"));
-            Items.Add(new Weapon(ITEM_ID_CLUB, "Club", "Clubs", 3, 10));
-            Items.Add(new HealingPotion(ITEM_ID_HEALING_POTION, "Healing potion", "Healing potions", 5));
-            Items.Add(new Item(ITEM_ID_SPIDER_FANG, "Spider fang", "Spider fangs"));
-            Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks"));
-            Items.Add(new Item(ITEM_ID_ADVENTURER_PASS, "Adventurer pass", "Adventurer passes"));
+            Items.Add(new Weapon(ITEM_ID_RUSTY_SWORD, "Rusty sword", "Rusty swords", "A rusty sword with nothing special.", 0, 5, 0, 10));
+            Items.Add(new Item(ITEM_ID_RAT_TAIL, "Rat tail", "Rat tails", "A bald rat tail", 1));
+            Items.Add(new Item(ITEM_ID_PIECE_OF_FUR, "Piece of fur", "Pieces of fur", "A soft piece of rat-fur.", 1));
+            Items.Add(new Item(ITEM_ID_SNAKE_FANG, "Snake fang", "Snake fangs", "A snake fang with some poison at the end.", 1));
+            Items.Add(new Item(ITEM_ID_SNAKESKIN, "Snakeskin", "Snakeskins","An intrauterine piece of snake skin. It shimmers brightly.", 5));
+            Items.Add(new Weapon(ITEM_ID_CLUB, "Club", "Clubs", "Basic club. For beating things.", 3, 10, 0, 70));
+            Items.Add(new HealingPotion(ITEM_ID_HEALING_POTION, "Healing potion", "Healing potions", "A standard healing potion for healing.", 5, 10));
+            Items.Add(new Item(ITEM_ID_SPIDER_FANG, "Spider fang", "Spider fangs", "A spider fang with some poison at the end.", 1));
+            Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks", "Silky Silk from a spiders butt.", 5));
+            Items.Add(new Item(ITEM_ID_ADVENTURER_PASS, "Adventurer pass", "Adventurer passes", "A pass meant for those who have helped the villagers.", UNSELLABLE_ITEM_PRICE));
+            Items.Add(new Item(ITEM_ID_BONE, "Bone", "Bones", "A piece of a skeleton.", 5));
+            Items.Add(new Weapon(ITEM_ID_MAGIC_WAND, "Magic Wand", "Magic Wands", "A piece of elderwood turned into a magic stick.", 0, 0, 10, 20));
         }
 
         private static void PopulateMonsters()
@@ -77,9 +84,13 @@ namespace Engine
             giantSpider.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SPIDER_FANG), 75, true));
             giantSpider.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SPIDER_SILK), 25, false));
 
+            Monster skeleton = new Monster(MONSTER_ID_SKELETON, "Skeleton", 3, 5, 5, 3, 3);
+            skeleton.LootTable.Add(new LootItem(ItemByID(ITEM_ID_BONE), 100, true));
+
             Monsters.Add(rat);
             Monsters.Add(snake);
             Monsters.Add(giantSpider);
+            Monsters.Add(skeleton);
         }
 
         private static void PopulateQuests()
@@ -131,11 +142,17 @@ namespace Engine
 
             Location bridge = new Location(LOCATION_ID_BRIDGE, "Bridge", "A stone bridge crosses a wide river.");
 
-            Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD, "Forest", "You see spider webs covering covering the trees in this forest.");
+            Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD, "Forest", "You see spider webs covering the trees in this forest.");
             spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
+
+            Location basement = new Location(LOCATION_ID_BASEMENT, "Basement", "Your basement. Dark and dusty, you hear a noise in the back of the room.");
+            basement.MonsterLivingHere = MonsterByID(MONSTER_ID_SKELETON);
 
             // Link the locations together
             home.LocationToNorth = townSquare;
+            home.LocationToSouth = basement;
+
+            basement.LocationToNorth = home;
 
             townSquare.LocationToNorth = alchemistHut;
             townSquare.LocationToSouth = home;
@@ -162,6 +179,7 @@ namespace Engine
 
             // Add the locations to the static list
             Locations.Add(home);
+            Locations.Add(basement);
             Locations.Add(townSquare);
             Locations.Add(guardPost);
             Locations.Add(alchemistHut);
