@@ -31,9 +31,11 @@ namespace Engine
         public const int MONSTER_ID_SNAKE = 2;
         public const int MONSTER_ID_GIANT_SPIDER = 3;
         public const int MONSTER_ID_SKELETON = 4;
+        public const int MONSTER_ID_FLYING_EYE_BALL = 5;
 
         public const int QUEST_ID_CLEAR_ALCHEMIST_GARDEN = 1;
         public const int QUEST_ID_CLEAR_FARMERS_FIELD = 2;
+        public const int QUEST_ID_SAVE_EDGE_OF_TOWN = 3;
 
         public const int LOCATION_ID_HOME = 1;
         public const int LOCATION_ID_TOWN_SQUARE = 2;
@@ -45,6 +47,7 @@ namespace Engine
         public const int LOCATION_ID_BRIDGE = 8;
         public const int LOCATION_ID_SPIDER_FIELD = 9;
         public const int LOCATION_ID_BASEMENT = 10;
+        public const int LOCATION_ID_EDGE_OF_TOWN = 11;
 
         static World()
         {
@@ -87,10 +90,14 @@ namespace Engine
             Monster skeleton = new Monster(MONSTER_ID_SKELETON, "Skeleton", 3, 5, 5, 3, 3);
             skeleton.LootTable.Add(new LootItem(ItemByID(ITEM_ID_BONE), 100, true));
 
+            Monster flyingEyeBall = new Monster(MONSTER_ID_FLYING_EYE_BALL, "Flying Eyeball", 4, 5, 5, 5, 5);
+            flyingEyeBall.LootTable.Add(new LootItem(ItemByID(ITEM_ID_MAGIC_WAND), 5, true));
+
             Monsters.Add(rat);
             Monsters.Add(snake);
             Monsters.Add(giantSpider);
             Monsters.Add(skeleton);
+            Monsters.Add(flyingEyeBall);
         }
 
         private static void PopulateQuests()
@@ -115,8 +122,19 @@ namespace Engine
 
             clearFarmersField.RewardItem = ItemByID(ITEM_ID_ADVENTURER_PASS);
 
+            Quest saveEdgeOfTown =
+                new Quest(
+                    QUEST_ID_SAVE_EDGE_OF_TOWN,
+                    "Clear out the flying monsters!",
+                    "Find a magic wand!", 20, 20);
+
+            saveEdgeOfTown.QuestCompletionItems.Add(new QuestCompletionItem(ItemByID(ITEM_ID_MAGIC_WAND), 1));
+
+            saveEdgeOfTown.RewardItem = ItemByID(ITEM_ID_MAGIC_WAND);
+
             Quests.Add(clearAlchemistGarden);
             Quests.Add(clearFarmersField);
+            Quests.Add(saveEdgeOfTown);
         }
 
         private static void PopulateLocations()
@@ -147,6 +165,10 @@ namespace Engine
             Location farmersField = new Location(LOCATION_ID_FARM_FIELD, "Farmer's field", "You see rows of vegetables growing here.");
             farmersField.MonsterLivingHere = MonsterByID(MONSTER_ID_SNAKE);
 
+            Location edgeoftown = new Location(LOCATION_ID_EDGE_OF_TOWN, "Edge of town", "You see a bare cliff with a giant pit at the bottom.");
+            edgeoftown.MonsterLivingHere = MonsterByID(MONSTER_ID_FLYING_EYE_BALL);
+            edgeoftown.QuestAvailableHere = QuestByID(QUEST_ID_SAVE_EDGE_OF_TOWN);
+
             Location guardPost = new Location(LOCATION_ID_GUARD_POST, "Guard post", "There is a large, tough-looking guard here.", ItemByID(ITEM_ID_ADVENTURER_PASS));
 
             Location bridge = new Location(LOCATION_ID_BRIDGE, "Bridge", "A stone bridge crosses a wide river.");
@@ -171,7 +193,11 @@ namespace Engine
             farmhouse.LocationToEast = townSquare;
             farmhouse.LocationToWest = farmersField;
 
+
             farmersField.LocationToEast = farmhouse;
+            farmersField.LocationToWest = edgeoftown;
+
+            edgeoftown.LocationToEast = farmersField;
 
             alchemistHut.LocationToSouth = townSquare;
             alchemistHut.LocationToNorth = alchemistsGarden;
@@ -197,6 +223,7 @@ namespace Engine
             Locations.Add(farmersField);
             Locations.Add(bridge);
             Locations.Add(spiderField);
+            Locations.Add(edgeoftown);
         }
 
         public static Item ItemByID(int id)
