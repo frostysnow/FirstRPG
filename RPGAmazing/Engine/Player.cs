@@ -28,18 +28,17 @@ namespace Engine
         public void AddExperiencePoints(int experiencePointsToAdd)
         {
             ExperiencePoints += experiencePointsToAdd;
-            MaximumHitPoints = (Level * 10);
+            MaximumHitPoints = (Level + 10);
         }
 
         public bool HasRequiredItemToEnterThisLocation(Location location)
         {
             if (location.ItemRequiredToEnter == null)
             {
-                // There is no required item for this location, so return "true"
                 return true;
             }
 
-            // See if the player has the required item in their inventory
+            // if the player has the required item in their inventory
             foreach (InventoryItem ii in Inventory)
             {
                 if (ii.Details.ID == location.ItemRequiredToEnter.ID)
@@ -49,7 +48,7 @@ namespace Engine
                 }
             }
 
-            // We didn't find the required item in their inventory, so return "false"
+            // didn't find the required item in their inventory return "false"
             return false;
         }
 
@@ -81,7 +80,7 @@ namespace Engine
 
         public bool HasAllQuestCompletionItems(Quest quest)
         {
-            // See if the player has all the items needed to complete the quest here
+            // if the player has all the items needed to complete the quest here
             foreach (QuestCompletionItem qci in quest.QuestCompletionItems)
             {
                 bool foundItemInPlayersInventory = false;
@@ -107,7 +106,7 @@ namespace Engine
                 }
             }
 
-            // If we got here, then the player must have all the required items, and enough of them, to complete the quest.
+            // the player must have all the required items, and enough of them, to complete the quest.
             return true;
         }
 
@@ -136,7 +135,7 @@ namespace Engine
                     // They have the item in their inventory, so increase the quantity by one
                     ii.Quantity++;
 
-                    return; // We added the item, and are done, so get out of this function
+                    return;
                 }
             }
 
@@ -154,7 +153,7 @@ namespace Engine
                     // Mark it as completed
                     pq.IsCompleted = true;
 
-                    return; // We found the quest, and marked it complete, so get out of this function
+                    return;
                 }
             }
         }

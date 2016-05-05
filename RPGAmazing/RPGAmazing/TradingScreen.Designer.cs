@@ -1,4 +1,6 @@
-﻿namespace RPGAmazing
+﻿//Trading Stuff (Not Complete)
+/*
+namespace RPGAmazing
 {
     partial class TradingScreen
     {
@@ -115,3 +117,4 @@
         private System.Windows.Forms.Button btnClose;
     }
 }
+*/

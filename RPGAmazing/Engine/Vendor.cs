@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿//Vendor for Trading(Not Yet Complete)
+/*
 using System.ComponentModel;
 using System.Linq;
-using Engine;
 
 namespace Engine
 {
@@ -41,7 +41,6 @@ namespace Engine
             if (item == null)
             {
                 // The item is not in the player's inventory, so ignore it.
-                // We might want to raise an error for this situation
             }
             else
             {
@@ -49,7 +48,6 @@ namespace Engine
                 item.Quantity -= quantity;
 
                 // Don't allow negative quantities.
-                // We might want to raise an error for this situation
                 if (item.Quantity < 0)
                 {
                     item.Quantity = 0;
@@ -77,3 +75,4 @@ namespace Engine
         }
     }
 }
+*/
